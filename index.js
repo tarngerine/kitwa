@@ -10,7 +10,7 @@ let getData = _ => data;
 let graphId = 123;
 
 // Data - create new node data structure
-let newNode = () => {
+let createNewNode = () => {
   return {
     content: "Start writing!",
     type: "text",
@@ -19,6 +19,11 @@ let newNode = () => {
       y: 0,
       z: 0
     },
+    size: {
+      x: 20,
+      y: 3,
+      z: 1
+    }
     nodeId: uuidv4(),
     userId: '696969',
     updated: new Date(),
@@ -27,7 +32,7 @@ let newNode = () => {
 
 // Event - Add new node
 let addNode = () => {
-  let n = newNode();
+  let n = createNewNode();
   data.nodes.push(n);
   data.graph.nodes.push(n.nodeId);
   render(_ => focusNode(n.nodeId));
