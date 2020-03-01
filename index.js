@@ -1,5 +1,7 @@
 import { loadGraph, saveGraph } from './sync.js';
 import { focusNode } from './focus.js';
+import { resizeNode } from './graph.js';
+import { getNodeElement } from './nodes.js';
 import { uuid } from './uuid.js';
 
 let userId = '696969';
@@ -61,25 +63,31 @@ let render = callback => {
 
     // Update existing nodes
     let n = app.querySelector(`[data-d-id="${node.nodeId}"]`);
+    let c;
     if (n !== null) {
-      let c = n.querySelector('[data-d-content]');
+      c = n.querySelector('[data-d-content]');
       if (c.value !== node.content) {
         c.value = node.content;
       }
-      return;
+    } else {
+      // Add nodes that don't exist
+      n = templates[node.type].cloneNode(true);
+      n.setAttribute('data-d-id', node.nodeId);
+      n.setAttribute('data-d-type', node.type);
+      c = n.querySelector('[data-d-content]');
+      c.value = node.content;
+      c.addEventListener('keyup', event => saveContent(event.target, node.nodeId));
+      c.addEventListener('mouseup', event => resizeNode(event.target, node.nodeId, data, setData, render, save))
+      app.appendChild(n);
     }
 
-    // Add nodes that don't exist
-    let t = templates[node.type].cloneNode(true);
-    t.setAttribute('data-d-id', node.nodeId);
-    t.setAttribute('data-d-type', node.type);
-    let content = t.querySelector('[data-d-content]');
-    content.value = node.content;
-    content.addEventListener('keyup', event => saveContent(event.target, node.nodeId, getData, setData));
-    app.appendChild(t);
-
-    if (callback) callback();
+    n.style.width = node.size.x + 'rem';
+    n.style.height = node.size.y + 'rem';
+    c.style.width = '100%';
+    c.style.height = '100%';
   });
+
+  if (callback) callback();
 }
 
 // Event - Autosave

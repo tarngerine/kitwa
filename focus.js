@@ -1,5 +1,7 @@
+import { getNodeElement } from './nodes.js';
+
 let focusNode = (nodeId) => {
-  document.querySelector(`[data-d-id="${nodeId}"]`).querySelector('textarea').focus();
+  getNodeElement(nodeId).querySelector('textarea').focus();
 }
 
 export { focusNode };
