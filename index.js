@@ -1,4 +1,5 @@
 import { loadGraph, saveGraph } from './sync.js';
+import { focusNode } from './focus.js';
 
 let userId = '696969';
 
@@ -29,7 +30,7 @@ let addNode = () => {
   let n = newNode();
   data.nodes.push(n);
   data.graph.nodes.push(n.nodeId);
-  render();
+  render(_ => focusNode(n.nodeId));
   save(data);
 }
 window.addNode = addNode;
