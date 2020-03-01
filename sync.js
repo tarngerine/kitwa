@@ -1,7 +1,9 @@
-let createNewData = () => {
+import { uuid } from './uuid.js';
+
+let createNewData = (userId) => {
   return {
     graph: {
-      graphId: uuidv4(),
+      graphId: uuid(),
       nodes: [],
       userId: userId,
       updated: new Date(),
@@ -25,7 +27,7 @@ let loadGraph = (userId, graphId) => {
     })
     .catch(err => {
       console.log('error code: ' + err);
-      return createNewData();
+      return createNewData(userId);
     });
 }
 

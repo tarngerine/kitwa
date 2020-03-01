@@ -1,5 +1,6 @@
 import { loadGraph, saveGraph } from './sync.js';
 import { focusNode } from './focus.js';
+import { uuid } from './uuid.js';
 
 let userId = '696969';
 
@@ -23,8 +24,8 @@ let createNewNode = () => {
       x: 20,
       y: 3,
       z: 1
-    }
-    nodeId: uuidv4(),
+    },
+    nodeId: uuid(),
     userId: '696969',
     updated: new Date(),
   }
@@ -129,12 +130,4 @@ let showStatus = (msg) => {
   statusTimeout = setTimeout(() => {
     document.querySelector('#status').innerHTML = "";
   }, 5000);
-}
-
-// Helpers from the web
-
-let uuidv4 = () => {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
 }
