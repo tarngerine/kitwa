@@ -15,8 +15,10 @@ class SketchNode {
     y: 100,
     z: 1
   }) {
+
+    // Content eventually needs to be an array, make it so darklang can support this?
     return {
-      content: [],
+      content: "",
       type: "sketch",
       pos: {
         x: 0,

@@ -75,7 +75,7 @@ let render = callback => {
       n = templates[node.type].cloneNode(true);
       n.style.width = node.size.x + 'rem';
       n.style.height = node.size.y + 'rem';
-      app.appendChild(n);
+      app.prepend(n);
       n.setAttribute('data-d-id', node.nodeId);
       n.setAttribute('data-d-type', node.type);
       
@@ -90,7 +90,7 @@ let render = callback => {
           break;
         case "sketch":
           // TODO: not manually multiply by 16
-          // TODO: load strokes if it exists from node.content
+          // TODO: load strokes if it exists from node.content (content is String on dark, need to support array)
           // TODO: save strokes if it exists to node.content, on mouseup
           const draw = new Draw(c, node.size.x * 16, node.size.y * 16);
       }
