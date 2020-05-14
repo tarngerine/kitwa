@@ -1,14 +1,21 @@
 import { uuid } from './uuid.js';
+import { SketchNode } from './Node.js';
 
 let createNewData = (userId) => {
+  const defaultCanvas = new SketchNode();
+
   return {
     graph: {
       graphId: uuid(),
-      nodes: [],
+      nodes: [
+        defaultCanvas.getData.nodeId,
+      ],
       userId: userId,
       updated: new Date(),
     },
-    nodes: []
+    nodes: [
+      defaultCanvas.getData,
+    ]
   };
 }
 

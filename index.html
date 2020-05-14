@@ -2,27 +2,35 @@
   <head>
     <title>Kitwa</title>
     <script src="index.js" type="module"></script>
-    <style>* { font-size: 1rem; }</style>
+    <style>* { font-size: 1rem; box-sizing: border-box; margin: 0; padding: 0; }</style>
     <meta charset="utf-8">
   </head>
   <body>
-    <nav>
-      <button
-        id="add"
-        onclick="addNode(this)">
-        Add
-      </button>
-    </nav>
     <div id="app">      
+      <nav>
+        <button
+          id="add"
+          onclick="addNode(this)">
+          Add
+        </button>
+      </nav>
     </div>
     <div id="status" aria-live="polite"></div>
 
+    <!-- TODO: Convert to <template> -->
     <div class="node"
       data-template="text"
       data-d-id>
       <textarea
         data-d-content>
       </textarea>
+    </div>
+    <div class="node"
+      data-template="sketch"
+      data-d-id>
+      <canvas
+        data-d-content>
+      </canvas>
     </div>
   </body>
 </html>

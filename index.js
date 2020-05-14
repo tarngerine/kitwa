@@ -3,6 +3,7 @@ import { focusNode } from './focus.js';
 import { resizeNode } from './graph.js';
 import { getNodeElement } from './nodes.js';
 import { uuid } from './uuid.js';
+import { Draw } from './draw.js';
 
 let userId = '696969';
 
@@ -13,7 +14,7 @@ let getData = _ => data;
 let graphId = 123;
 
 // Data - create new node data structure
-let createNewNode = () => {
+let createNewTextNode = () => {
   return {
     content: "Start writing!",
     type: "text",
@@ -35,7 +36,7 @@ let createNewNode = () => {
 
 // Event - Add new node
 let addNode = () => {
-  let n = createNewNode();
+  let n = createNewTextNode();
   data.nodes.push(n);
   data.graph.nodes.push(n.nodeId);
   render(_ => focusNode(n.nodeId));
@@ -72,19 +73,28 @@ let render = callback => {
     } else {
       // Add nodes that don't exist
       n = templates[node.type].cloneNode(true);
+      n.style.width = node.size.x + 'rem';
+      n.style.height = node.size.y + 'rem';
+      app.appendChild(n);
       n.setAttribute('data-d-id', node.nodeId);
       n.setAttribute('data-d-type', node.type);
+      
       c = n.querySelector('[data-d-content]');
-      c.value = node.content;
-      c.addEventListener('keyup', event => saveContent(event.target, node.nodeId));
-      c.addEventListener('mouseup', event => resizeNode(event.target, node.nodeId, data, setData, render, save))
-      app.appendChild(n);
+      switch (node.type) {
+        case "text":
+          c.value = node.content;
+          c.addEventListener('keyup', event => saveContent(event.target, node.nodeId));
+          c.addEventListener('mouseup', event => resizeNode(event.target, node.nodeId, data, setData, render, save))
+          c.style.width = '100%';
+          c.style.height = '100%';
+          break;
+        case "sketch":
+          // TODO: not manually multiply by 16
+          // TODO: load strokes if it exists from node.content
+          // TODO: save strokes if it exists to node.content, on mouseup
+          const draw = new Draw(c, node.size.x * 16, node.size.y * 16);
+      }
     }
-
-    n.style.width = node.size.x + 'rem';
-    n.style.height = node.size.y + 'rem';
-    c.style.width = '100%';
-    c.style.height = '100%';
   });
 
   if (callback) callback();
